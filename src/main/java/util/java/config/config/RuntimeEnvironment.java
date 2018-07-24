@@ -52,7 +52,7 @@ public class RuntimeEnvironment {
     }
 
     /**
-     * @return the runtime globalconfig.spark.util.java.util.config.config.app.
+     * @return the runtime app.
      */
     public String getApplication() {
         return application;

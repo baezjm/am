@@ -68,7 +68,7 @@ public class APIException extends RuntimeException {
     }
 
     /**
-     * @return the request id that throw this globalconfig.java.util.config.exception.
+     * @return the request id that throw this exception.
      */
     public String getRequestId() {
         return requestId;

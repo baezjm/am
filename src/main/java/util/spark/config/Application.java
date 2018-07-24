@@ -51,7 +51,7 @@ public abstract class Application extends AbstractModule implements SparkApplica
     /**
      * Injector name to add to Config.addInjector()
      */
-    public static final String APP = "globalconfig/spark.util.java.util.config.config.app";
+    public static final String APP = "app";
 
 
     private int port;
@@ -98,7 +98,7 @@ public abstract class Application extends AbstractModule implements SparkApplica
     }
 
     /**
-     * Create the module and add the injector to the globalconfig.java.util.config.config module.
+     * Create the module and add the injector to the config module.
      */
     protected void dependencyInjectionConfiguration() {
         Config.addInjector(APP, Guice.createInjector(this));
