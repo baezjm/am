@@ -1,11 +1,14 @@
 package com.appointment.manager.api.entrypoints.jm.search;
 
+import com.appointment.manager.api.core.entities.Appointment;
+import com.appointment.manager.api.core.entities.Paging;
 import lombok.Builder;
 import lombok.Getter;
 import spark.Request;
 import spark.Response;
 
 import java.io.Serializable;
+import java.util.List;
 
 public interface SearchJMEndpoint {
     /**
@@ -25,6 +28,7 @@ public interface SearchJMEndpoint {
     @Getter
     @Builder
     class SearchJMResponseModel implements Serializable {
-        private String jmId;
+        private Paging paging;
+        private List<Appointment> results;
     }
 }

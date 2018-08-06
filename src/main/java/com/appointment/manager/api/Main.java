@@ -1,9 +1,6 @@
 package com.appointment.manager.api;
 
-import com.appointment.manager.api.configuration.ConfigurationInjector;
-import com.appointment.manager.api.configuration.DataSourceInjector;
-import com.appointment.manager.api.configuration.EndpointsInjector;
-import com.appointment.manager.api.configuration.RepositoriesInjector;
+import com.appointment.manager.api.configuration.*;
 import com.appointment.manager.api.entrypoints.jm.search.SearchJMEndpoint;
 import com.google.gson.Gson;
 import com.google.inject.Guice;
@@ -40,7 +37,8 @@ public class Main extends Application {
                 new ConfigurationInjector(),
                 new EndpointsInjector(),
                 new DataSourceInjector(),
-                new RepositoriesInjector()
+                new RepositoriesInjector(),
+                new UseCaseInjector()
             );
 
         Config.addInjector(APP, injector);

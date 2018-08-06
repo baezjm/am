@@ -13,6 +13,11 @@ import util.spark.config.Application;
 
 import javax.inject.Inject;
 import java.lang.reflect.Type;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * This abstract class standardize and promote reuse of entrypoints commands.
@@ -163,6 +168,19 @@ public abstract class AbstractEndpoint<T> {
     }
 
     /**
+     * Gets the Date query param value from a specific request
+     *
+     * @param request    the request to get the query param
+     * @param queryParam the query parameter
+     * @return the Integer value of the provided queryParam
+     */
+    protected Date getQueryParamAsDate(Request request, String queryParam) {
+
+        String value = getQueryParam(request, queryParam);
+        return getDate(value);
+    }
+
+    /**
      * Gets the Long query param value from a specific request
      *
      * @param request    the request to get the query param
@@ -251,6 +269,33 @@ public abstract class AbstractEndpoint<T> {
     }
 
     /**
+     * Parses the string argument as a Integer.
+     *
+     * @param paramValue a {@code String} containing the {@code Integer}
+     *                   representation to be parsed
+     * @return the Integer value represented by the argument in decimal.
+     * @throws BadRequestException if the string does not contain a
+     *                             parsable Integer.
+     */
+    private Date getDate(String paramValue) {
+
+        Date value = null;
+
+        if (paramValue != null) {
+            try {
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+                value = format.parse(paramValue);
+
+            } catch (NumberFormatException | ParseException ex) {
+                throw new BadRequestException("Invalid data: " + paramValue);
+            }
+        }
+
+        return value;
+    }
+
+
+    /**
      * Get instance from the subscribed injector.
      *
      * @param clazz
@@ -265,6 +310,30 @@ public abstract class AbstractEndpoint<T> {
             throw new InstanceNotFoundException(clazz);
 
         return instance;
+    }
+
+    /**
+     * Parse string to enum
+     *
+     * @param valueString value as string
+     * @param clazz       enum class type
+     * @param <E>         enum
+     * @return parsed enum
+     */
+    protected <E extends Enum<E>> E parseEnum(String valueString, Class<E> clazz) {
+
+        E value = null;
+
+        if (valueString != null) {
+            try {
+                value = Enum.valueOf(clazz, valueString);
+            } catch (IllegalArgumentException e) {
+                String message = "Invalid value for enum " + clazz.getSimpleName() + ": " + valueString;
+                throw new BadRequestException(message);
+            }
+        }
+
+        return value;
     }
 
 }

@@ -19,6 +19,13 @@ jacocoTestReport {
         xml.enabled = true // coveralls plugin depends on xml format report
         html.enabled = true
     }
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: ['com/appointment/manager/api/Main**',
+                                        'com/appointment/manager/api/entrypoints/AbstractEndpoint**',
+                                        'com/appointment/manager/api/configuration**'])
+        })
+    }
 }
 
 group 'com.appointment.manager'
@@ -38,7 +45,7 @@ repositories {
 
 dependencies{
 
-    compile "com.zaxxer:HikariCP:2.6.2"
+    compile group: 'org.hibernate', name: 'hibernate-hikaricp', version: '4.3.8.Final'
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.40'
 
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
@@ -52,7 +59,10 @@ dependencies{
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.7'
 
 
-    compile 'com.sparkjava:spark-core:2.6.0'
+    compile ("com.sparkjava:spark-core:2.6.0"){
+        exclude(module: 'httpclient')
+        exclude(module: 'gson')
+    }
     compile 'org.hibernate:hibernate-core:5.3.3.Final'
 
     testCompile "junit:junit:4.12"

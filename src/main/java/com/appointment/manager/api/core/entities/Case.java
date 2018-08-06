@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class MedicalBoard {
-    private Long id;
+public class Case {
+    private String number;
+    private Patient patient;
 }
