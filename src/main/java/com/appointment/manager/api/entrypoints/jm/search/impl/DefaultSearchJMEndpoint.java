@@ -9,6 +9,7 @@ import com.appointment.manager.api.entrypoints.jm.search.SearchJMEndpoint.Search
 import lombok.extern.slf4j.Slf4j;
 import spark.Request;
 import spark.Response;
+import util.spark.config.Application;
 
 import javax.inject.Inject;
 import java.util.Date;
@@ -16,9 +17,6 @@ import java.util.Date;
 
 @Slf4j
 public class DefaultSearchJMEndpoint extends AbstractEndpoint<SearchJMResponseModel> implements SearchJMEndpoint {
-
-    @Inject
-    private SearchJM searchJME;
 
     @Inject
     private ValidateUtil validateUtil;
@@ -35,7 +33,7 @@ public class DefaultSearchJMEndpoint extends AbstractEndpoint<SearchJMResponseMo
 
         log.info("DefaultSearchJMEndpoint -" + " limit " + limit + " offset " + offset + " dateFrom " + dateFrom + " dateTo " + dateTo);
 
-        SearchResponse r = searchJME.initialize(limit, offset,dateFrom,dateTo).get();
+        SearchResponse r = Application.getInstance(SearchJM.class).initialize(limit, offset,dateFrom,dateTo).get();
 
         return SearchJMResponseModel.builder().paging(r.getPaging()).results(r.getResults()).build();
     }

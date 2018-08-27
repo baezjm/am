@@ -4,7 +4,11 @@ import com.appointment.manager.api.core.entities.Paging;
 import com.appointment.manager.api.core.entities.SearchResponse;
 import com.appointment.manager.api.core.usecase.ValidateUtil;
 import com.appointment.manager.api.core.usecase.jm.search.SearchJM;
+import com.appointment.manager.api.core.usecase.jmh.search.SearchJMH;
 import com.appointment.manager.api.entrypoints.jm.search.SearchJMEndpoint.SearchJMResponseModel;
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Module;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +19,7 @@ import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import spark.Request;
 import spark.Response;
+import util.java.config.config.Config;
 import util.java.config.exception.BadRequestException;
 
 import java.util.ArrayList;
@@ -23,6 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
+import static util.spark.config.Application.APP;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultSearchJMEndpointTest {
@@ -41,6 +47,18 @@ public class DefaultSearchJMEndpointTest {
 
     @Spy
     private ValidateUtil validateUtil;
+
+    @Before
+    public void setUp() throws Exception {
+        Module module = new AbstractModule() {
+            @Override
+            protected void configure() {
+                bind(SearchJM.class).toInstance(searchJME);
+            }
+        };
+
+        Config.addInjector(APP, Guice.createInjector(module));
+    }
 
     @Test
     public void test_success() {
