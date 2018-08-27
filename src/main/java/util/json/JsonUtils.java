@@ -46,6 +46,7 @@ public final class JsonUtils {
     public static GsonBuilder getSerializerGsonBuilder() {
         return new GsonBuilder()
                 .disableHtmlEscaping()
+                .serializeNulls()
                 .setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES)
                 .registerTypeAdapter(Map.class, new MapDeserializer())
                 .registerTypeAdapter(List.class, new ListDeserializer())

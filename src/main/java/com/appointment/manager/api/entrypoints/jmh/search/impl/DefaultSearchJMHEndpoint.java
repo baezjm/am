@@ -29,7 +29,7 @@ public class DefaultSearchJMHEndpoint extends AbstractEndpoint<SearchJMHResponse
 
         validate(limit,offset);
 
-        log.info("DefaultSearchJMEndpoint -" + " limit " + limit + " offset " + offset + " dateFrom " + dateFrom + " dateTo " + dateTo);
+        log.info("DefaultSearchJMHEndpoint -" + " limit " + limit + " offset " + offset + " dateFrom " + dateFrom + " dateTo " + dateTo);
 
         SearchResponse r = Application.getInstance(SearchJMH.class).initialize(limit, offset,dateFrom,dateTo).get();
 

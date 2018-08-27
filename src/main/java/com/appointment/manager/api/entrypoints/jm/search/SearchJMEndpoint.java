@@ -7,7 +7,6 @@ import lombok.Getter;
 import spark.Request;
 import spark.Response;
 
-import java.io.Serializable;
 import java.util.List;
 
 public interface SearchJMEndpoint {
@@ -21,13 +20,7 @@ public interface SearchJMEndpoint {
 
     @Getter
     @Builder
-    class SearchJMRequestModel implements Serializable {
-        private String jmId;
-    }
-
-    @Getter
-    @Builder
-    class SearchJMResponseModel implements Serializable {
+    class SearchJMResponseModel{
         private Paging paging;
         private List<Appointment> results;
     }
