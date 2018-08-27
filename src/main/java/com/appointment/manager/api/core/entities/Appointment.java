@@ -13,4 +13,5 @@ public class Appointment {
     private Case appointmentCase;
     private Integer appointmentType;
     private Date creationDate;
+    private Clinic clinic;
 }

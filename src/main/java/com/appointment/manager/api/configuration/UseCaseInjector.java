@@ -1,12 +1,15 @@
 package com.appointment.manager.api.configuration;
 
-import com.appointment.manager.api.core.usecase.SearchJME;
-import com.appointment.manager.api.core.usecase.impl.DefaultSearchME;
+import com.appointment.manager.api.core.usecase.jm.search.SearchJM;
+import com.appointment.manager.api.core.usecase.jm.search.impl.DefaultSearchJM;
+import com.appointment.manager.api.core.usecase.jmh.search.SearchJMH;
+import com.appointment.manager.api.core.usecase.jmh.search.impl.DefaultSearchJMH;
 import com.google.inject.AbstractModule;
 
 public class UseCaseInjector extends AbstractModule{
     @Override
     protected void configure() {
-        bind(SearchJME.class).to(DefaultSearchME.class);
+        bind(SearchJM.class).to(DefaultSearchJM.class);
+        bind(SearchJMH.class).to(DefaultSearchJMH.class);
     }
 }

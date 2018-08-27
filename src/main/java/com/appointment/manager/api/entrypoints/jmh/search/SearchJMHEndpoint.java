@@ -1,4 +1,4 @@
-package com.appointment.manager.api.entrypoints.jm.search;
+package com.appointment.manager.api.entrypoints.jmh.search;
 
 import com.appointment.manager.api.core.entities.Appointment;
 import com.appointment.manager.api.core.entities.Paging;
@@ -10,14 +10,14 @@ import spark.Response;
 import java.io.Serializable;
 import java.util.List;
 
-public interface SearchJMEndpoint {
+public interface SearchJMHEndpoint {
     /**
      *
      * @param request
      * @param response
      * @return result of searchJM jm
      */
-    SearchJMResponseModel execute(Request request, Response response);
+    SearchJMHResponseModel execute(Request request, Response response);
 
     @Getter
     @Builder
@@ -27,7 +27,7 @@ public interface SearchJMEndpoint {
 
     @Getter
     @Builder
-    class SearchJMResponseModel implements Serializable {
+    class SearchJMHResponseModel implements Serializable {
         private Paging paging;
         private List<Appointment> results;
     }

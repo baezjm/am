@@ -5,7 +5,7 @@ import com.appointment.manager.api.core.entities.SearchResponse;
 import java.util.Date;
 
 @FunctionalInterface
-public interface SearchMedicalBoardAppointmentRepository {
+public interface SearchHomologationAppointmentRepository {
 
-    SearchResponse searchJM(Integer limit, Integer offset, Date dateFrom, Date dateTo);
+    SearchResponse searchJMH(Integer limit, Integer offset, Date dateFrom, Date dateTo);
 }

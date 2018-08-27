@@ -1,19 +1,18 @@
-package com.appointment.manager.api.core.usecase;
+package com.appointment.manager.api.core.usecase.jm.search;
 
-import com.appointment.manager.api.core.repositories.SearchMedicalBoardAppointmentRepository.SearchResponse;
+import com.appointment.manager.api.core.entities.SearchResponse;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NonNull;
 
 import java.util.Date;
 import java.util.function.Supplier;
 
-public interface SearchJME extends Supplier<SearchResponse>{
+public interface SearchJM extends Supplier<SearchResponse>{
 
-    void setModel(SearchJMEModel model);
+    void setModel(SearchJMModel model);
 
-    default SearchJME initialize(Integer limit, Integer offset, Date dateFrom,Date dateTo){
-        SearchJMEModel model = SearchJMEModel.builder()
+    default SearchJM initialize(Integer limit, Integer offset, Date dateFrom, Date dateTo){
+        SearchJMModel model = SearchJMModel.builder()
                 .limit(limit)
                 .offset(offset)
                 .dateFrom(dateFrom)
@@ -25,7 +24,7 @@ public interface SearchJME extends Supplier<SearchResponse>{
 
     @Builder
     @Getter
-    class SearchJMEModel{
+    class SearchJMModel {
         private Integer limit;
         private Integer offset;
         private Date dateFrom;
