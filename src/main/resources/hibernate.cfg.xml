@@ -7,10 +7,12 @@
 
         <property name="hibernate.connection.provider_class">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</property>
 
-        <!-- Database connection settings -->
+        <!-- LOCAL -->
         <property name="hibernate.hikari.dataSource.url">jdbc:mysql://localhost/appointment_manager</property>
         <property name="hibernate.hikari.dataSource.user">inlex_user</property>
         <property name="hibernate.hikari.dataSource.password">moCk2$ippO</property>
+
+        <!-- Database connection settings -->
         <property name="hibernate.hikari.dataSourceClassName">com.mysql.jdbc.jdbc2.optional.MysqlDataSource</property>
         <property name="hibernate.hikari.maximumPoolSize">30</property>
         <property name="hibernate.hikari.idleTimeout">30000</property>
@@ -30,6 +32,8 @@
         <mapping class="com.appointment.manager.api.repositories.entity.CaseEntity" />
         <mapping class="com.appointment.manager.api.repositories.entity.PatientEntity" />
         <mapping class="com.appointment.manager.api.repositories.entity.MedicalBoardAppointmentEntity" />
+        <mapping class="com.appointment.manager.api.repositories.entity.ClinicEntity" />
+        <mapping class="com.appointment.manager.api.repositories.entity.HomologationAppointmentEntity" />
 
     </session-factory>
 

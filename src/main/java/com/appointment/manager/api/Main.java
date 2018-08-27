@@ -2,6 +2,7 @@ package com.appointment.manager.api;
 
 import com.appointment.manager.api.configuration.*;
 import com.appointment.manager.api.entrypoints.jm.search.SearchJMEndpoint;
+import com.appointment.manager.api.entrypoints.jmh.search.SearchJMHEndpoint;
 import com.google.gson.Gson;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -15,6 +16,7 @@ import static spark.Spark.get;
 public class Main extends Application {
 
     private SearchJMEndpoint searchJMEndpoint;
+    private SearchJMHEndpoint searchJMHEndpoint;
 
     public Main() {
         super();
@@ -49,8 +51,10 @@ public class Main extends Application {
         Gson gson = getInstance(Gson.class);
 
         this.searchJMEndpoint = getInstance(SearchJMEndpoint.class);
+        this.searchJMHEndpoint = getInstance(SearchJMHEndpoint.class);
 
 
         get("/am/search/jm", searchJMEndpoint::execute, gson::toJson);
+        get("/am/search/jmh", searchJMHEndpoint::execute, gson::toJson);
     }
 }

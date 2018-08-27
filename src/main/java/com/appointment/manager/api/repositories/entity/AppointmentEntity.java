@@ -30,6 +30,10 @@ public class AppointmentEntity {
     @JoinColumn(name="caseId")
     private CaseEntity appointmentCase;
 
+    @ManyToOne
+    @JoinColumn(name="clinicId")
+    private ClinicEntity clinic;
+
     @Column
     private Date creationDate;
 }

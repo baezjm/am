@@ -1,17 +1,17 @@
-package com.appointment.manager.api.core.usecase.impl;
+package com.appointment.manager.api.core.usecase.jm.search.impl;
 
+import com.appointment.manager.api.core.entities.SearchResponse;
 import com.appointment.manager.api.core.repositories.SearchMedicalBoardAppointmentRepository;
-import com.appointment.manager.api.core.repositories.SearchMedicalBoardAppointmentRepository.SearchResponse;
-import com.appointment.manager.api.core.usecase.SearchJME;
 import com.appointment.manager.api.core.usecase.ValidateUtil;
+import com.appointment.manager.api.core.usecase.jm.search.SearchJM;
 import lombok.Setter;
 
 import javax.inject.Inject;
 
-public class DefaultSearchME implements SearchJME{
+public class DefaultSearchJM implements SearchJM {
 
     @Setter
-    private SearchJMEModel model;
+    private SearchJMModel model;
 
     @Inject
     private SearchMedicalBoardAppointmentRepository searchAppointmentRepository;
@@ -25,7 +25,7 @@ public class DefaultSearchME implements SearchJME{
         validateModel();
 
         SearchResponse r = searchAppointmentRepository
-                .search(model.getLimit(), model.getOffset(),model.getDateFrom(),model.getDateTo());
+                .searchJM(model.getLimit(), model.getOffset(),model.getDateFrom(),model.getDateTo());
         return r;
     }
 

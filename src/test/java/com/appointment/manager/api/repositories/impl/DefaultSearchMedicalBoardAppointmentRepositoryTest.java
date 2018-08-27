@@ -1,6 +1,7 @@
 package com.appointment.manager.api.repositories.impl;
 
-import com.appointment.manager.api.core.repositories.SearchMedicalBoardAppointmentRepository.SearchResponse;
+import com.appointment.manager.api.core.entities.SearchResponse;
+import com.appointment.manager.api.repositories.entity.HomologationAppointmentEntity;
 import com.appointment.manager.api.repositories.entity.MedicalBoardAppointmentEntity;
 import com.appointment.manager.api.repositories.exception.RepositoryException;
 import org.hibernate.Session;
@@ -41,7 +42,7 @@ public class DefaultSearchMedicalBoardAppointmentRepositoryTest {
     }
 
     @Test
-    public void test_success() {
+    public void test_success_jm() {
         Session session = mock(Session.class);
         CriteriaBuilder criteriaBuilder = mock(CriteriaBuilder.class);
         CriteriaQuery<MedicalBoardAppointmentEntity> criteriaQuery = mock(CriteriaQuery.class);
@@ -65,13 +66,43 @@ public class DefaultSearchMedicalBoardAppointmentRepositoryTest {
 
         when(query.getResultList()).thenReturn(results);
 
-        SearchResponse r = repository.search(1, 0, null, null);
+        SearchResponse r = repository.searchJM(1, 0, null, null);
 
         assertThat(r).isNotNull();
     }
 
     @Test
-    public void test_error() {
+    public void test_success_jmh() {
+        Session session = mock(Session.class);
+        CriteriaBuilder criteriaBuilder = mock(CriteriaBuilder.class);
+        CriteriaQuery<HomologationAppointmentEntity> criteriaQuery = mock(CriteriaQuery.class);
+        CriteriaQuery<Long> criteriaQueryLong = mock(CriteriaQuery.class);
+        Root<HomologationAppointmentEntity> root = mock(Root.class);
+        Query<HomologationAppointmentEntity> query = mock(Query.class);
+        Query<Long> queryLong = mock(Query.class);
+
+        when(sessionFactory.openSession()).thenReturn(session);
+        when(session.getCriteriaBuilder()).thenReturn(criteriaBuilder);
+        when(criteriaBuilder.createQuery(eq(HomologationAppointmentEntity.class))).thenReturn(criteriaQuery);
+        when(criteriaBuilder.createQuery(eq(Long.class))).thenReturn(criteriaQueryLong);
+
+
+        when(criteriaQuery.from(eq(HomologationAppointmentEntity.class))).thenReturn(root);
+        when(criteriaQueryLong.from(eq(HomologationAppointmentEntity.class))).thenReturn(root);
+        when(session.createQuery(eq(criteriaQuery))).thenReturn(query);
+        when(session.createQuery(eq(criteriaQueryLong))).thenReturn(queryLong);
+
+        List<HomologationAppointmentEntity> results = new ArrayList<>();
+
+        when(query.getResultList()).thenReturn(results);
+
+        SearchResponse r = repository.searchJMH(1, 0, null, null);
+
+        assertThat(r).isNotNull();
+    }
+
+    @Test
+    public void test_error_jm() {
         Session session = mock(Session.class);
         CriteriaBuilder criteriaBuilder = mock(CriteriaBuilder.class);
         CriteriaQuery<MedicalBoardAppointmentEntity> criteriaQuery = mock(CriteriaQuery.class);
@@ -91,13 +122,40 @@ public class DefaultSearchMedicalBoardAppointmentRepositoryTest {
         when(session.createQuery(eq(criteriaQuery))).thenReturn(query);
         when(session.createQuery(eq(criteriaQueryLong))).thenReturn(queryLong);
 
-        List<MedicalBoardAppointmentEntity> results = new ArrayList<>();
+        when(query.getResultList()).thenThrow(Exception.class);
+
+        assertThatThrownBy(() -> repository.searchJM(1, 0, null, null))
+                .isExactlyInstanceOf(RepositoryException.class)
+                .hasMessage("Error searching Medical Board Appointments");
+
+    }
+
+    @Test
+    public void test_error_jmh() {
+        Session session = mock(Session.class);
+        CriteriaBuilder criteriaBuilder = mock(CriteriaBuilder.class);
+        CriteriaQuery<HomologationAppointmentEntity> criteriaQuery = mock(CriteriaQuery.class);
+        CriteriaQuery<Long> criteriaQueryLong = mock(CriteriaQuery.class);
+        Root<HomologationAppointmentEntity> root = mock(Root.class);
+        Query<HomologationAppointmentEntity> query = mock(Query.class);
+        Query<Long> queryLong = mock(Query.class);
+
+        when(sessionFactory.openSession()).thenReturn(session);
+        when(session.getCriteriaBuilder()).thenReturn(criteriaBuilder);
+        when(criteriaBuilder.createQuery(eq(HomologationAppointmentEntity.class))).thenReturn(criteriaQuery);
+        when(criteriaBuilder.createQuery(eq(Long.class))).thenReturn(criteriaQueryLong);
+
+
+        when(criteriaQuery.from(eq(HomologationAppointmentEntity.class))).thenReturn(root);
+        when(criteriaQueryLong.from(eq(HomologationAppointmentEntity.class))).thenReturn(root);
+        when(session.createQuery(eq(criteriaQuery))).thenReturn(query);
+        when(session.createQuery(eq(criteriaQueryLong))).thenReturn(queryLong);
 
         when(query.getResultList()).thenThrow(Exception.class);
 
-        assertThatThrownBy(() -> repository.search(1, 0, null, null))
+        assertThatThrownBy(() -> repository.searchJMH(1, 0, null, null))
                 .isExactlyInstanceOf(RepositoryException.class)
-                .hasMessage("Error searching Appointments");
+                .hasMessage("Error searching Homologation Appointments");
 
     }
 }

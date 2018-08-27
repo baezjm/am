@@ -1,20 +1,24 @@
-package com.appointment.manager.api.entrypoints.jm.search.impl;
+package com.appointment.manager.api.entrypoints.jmh.search.impl;
 
 import com.appointment.manager.api.core.entities.Paging;
 import com.appointment.manager.api.core.entities.SearchResponse;
 import com.appointment.manager.api.core.usecase.ValidateUtil;
-import com.appointment.manager.api.core.usecase.jm.search.SearchJM;
-import com.appointment.manager.api.entrypoints.jm.search.SearchJMEndpoint.SearchJMResponseModel;
+import com.appointment.manager.api.core.usecase.jmh.search.SearchJMH;
+import com.appointment.manager.api.entrypoints.jm.search.SearchJMEndpoint;
+import com.appointment.manager.api.entrypoints.jmh.search.SearchJMHEndpoint;
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Module;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import spark.Request;
 import spark.Response;
+import util.java.config.config.Config;
 import util.java.config.exception.BadRequestException;
 
 import java.util.ArrayList;
@@ -23,15 +27,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
+import static util.spark.config.Application.APP;
 
 @RunWith(MockitoJUnitRunner.class)
-public class DefaultSearchJMEndpointTest {
+public class DefaultSearchJMHEndpointTest {
 
     @InjectMocks
-    private DefaultSearchJMEndpoint endpoint;
+    private DefaultSearchJMHEndpoint endpoint;
 
     @Mock
-    private SearchJM searchJME;
+    private SearchJMH searchJMH;
 
     @Mock
     Request request;
@@ -42,14 +47,26 @@ public class DefaultSearchJMEndpointTest {
     @Spy
     private ValidateUtil validateUtil;
 
+    @Before
+    public void setUp() throws Exception {
+        Module module = new AbstractModule() {
+            @Override
+            protected void configure() {
+                bind(SearchJMH.class).toInstance(searchJMH);
+            }
+        };
+
+        Config.addInjector(APP, Guice.createInjector(module));
+    }
+
     @Test
     public void test_success() {
         when(request.queryParams(eq("limit"))).thenReturn("1");
         when(request.queryParams(eq("offset"))).thenReturn("0");
-        when(searchJME.initialize(eq(1),eq(0),eq(null),eq(null))).thenReturn(searchJME);
-        when(searchJME.get()).thenReturn(SearchResponse.builder().results(new ArrayList<>()).paging(Paging.builder().limit(1).offset(0).total(3L).build()).build());
+        when(searchJMH.initialize(eq(1),eq(0),eq(null),eq(null))).thenReturn(searchJMH);
+        when(searchJMH.get()).thenReturn(SearchResponse.builder().results(new ArrayList<>()).paging(Paging.builder().limit(1).offset(0).total(3L).build()).build());
 
-        SearchJMResponseModel result = endpoint.execute(request, response);
+        SearchJMHEndpoint.SearchJMHResponseModel result = endpoint.execute(request, response);
 
         assertThat(result).isNotNull();
         assertThat(result.getPaging()).isNotNull();

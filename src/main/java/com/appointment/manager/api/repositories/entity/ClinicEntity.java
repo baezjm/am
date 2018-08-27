@@ -10,19 +10,15 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
-@Table(name="patient", schema = "appointment_manager")
-public class PatientEntity {
+@Table(name="clinic", schema = "appointment_manager")
+public class ClinicEntity {
     @Id
     private Long id;
     @Column
-    private String cuil;
-    @Column
-    private String firstName;
-    @Column
-    private String surname;
+    private String adress;//está mal en la base
 }
